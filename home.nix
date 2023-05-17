@@ -18,9 +18,9 @@
 		gh
 		networkmanagerapplet
 		blueman
+		schildichat-desktop-wayland
 		discord
 		mako
-		flatpak
 		xournalpp
 		wl-clipboard
 		];

@@ -7,9 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-unstable = {
+    		     url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    };
+    
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
     let
       arch = "x86_64-linux";
 
@@ -22,6 +26,9 @@
         modules = [
 	    ./home.nix
 	];
+	extraSpecialArgs = {
+			 pkgs-unstable = nixpkgs-unstable.legacyPackages.${arch};
+	};
       };
     };
 }
