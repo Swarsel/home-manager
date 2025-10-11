@@ -234,7 +234,7 @@ let
       };
 
       seat = mkOption {
-        type = types.attrsOf (types.attrsOf types.str);
+        type = types.attrsOf (types.listOf (types.attrsOf types.str));
         default = { };
         example = {
           "*" = {
@@ -411,7 +411,13 @@ let
   '';
   inputStr = moduleStr "input";
   outputStr = moduleStr "output";
-  seatStr = moduleStr "seat";
+
+  seatStr = moduleType: name: attrsList: ''
+  ${moduleType} "${name}" {
+  ${concatStringsSep "\n" (map (attrs: concatStringsSep "\n" (lib.mapAttrsToList (name: value: "  ${name} ${value}") attrs)) attrsList)}
+  }
+  '';
+  seatStr = seatStr "seat";
 
   variables = concatStringsSep " " cfg.systemd.variables;
   extraCommands = concatStringsSep " && " cfg.systemd.extraCommands;
